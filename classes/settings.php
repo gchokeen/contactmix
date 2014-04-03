@@ -18,7 +18,7 @@ class Settings_API_Tabs_ContactMix_Plugin {
 	 * current ones speak for themselves.
 	 */
 	function __construct() {
-		parent::__construct();
+		
 		add_action( 'init', array( &$this, 'load_settings' ) );
 		add_action( 'admin_init', array( &$this, 'register_contactmix_general_settings' ) );		
 		add_action( 'admin_menu', array( &$this, 'add_admin_menus' ) );
@@ -57,7 +57,7 @@ class Settings_API_Tabs_ContactMix_Plugin {
 		
 		register_setting( $this->contactmix_general_settings_key, $this->contactmix_general_settings_key );
 		add_settings_section( 'contactmix_section_general',__('ContactMix','contactmix'), array( &$this, 'contactmix_section_general_desc' ), $this->contactmix_general_settings_key );
-		add_settings_field( 'contactmix_toggle',__('Contact Mix Toggle','contactmix') , array( &$this, 'field_contactmix_toggle' ), $this->contactmix_general_settings_key, 'contactmix_section_general' );
+		add_settings_field( 'contactmix_toggle',__('Turn ON/OFF Contact Mix','contactmix') , array( &$this, 'field_contactmix_toggle' ), $this->contactmix_general_settings_key, 'contactmix_section_general' );
 
 	}
 
@@ -69,14 +69,23 @@ class Settings_API_Tabs_ContactMix_Plugin {
 	 * for their respective sections, used as callbacks
 	 * with add_settings_section
 	 */
-	function contactmix_section_general_desc() { echo 'Turn ON/OFF Contact Mix'; }
+	function contactmix_section_general_desc() { }
 	
 	
 	
 	function field_contactmix_toggle() {
-		$contactmix_toggle = (isset($this->priceplow_general_settings['contactmix_toggle'])?esc_attr( $this->priceplow_general_settings['contactmix_toggle'] ):'');
+		$contactmix_toggle = (isset($this->contactmix_general_settings['contactmix_toggle'])?esc_attr( $this->contactmix_general_settings['contactmix_toggle'] ):'');
 		?>
-			<input type="checkbox" name="<?php echo $this->contactmix_general_settings_key; ?>[contactmix_toggle]"  <?php checked( $contactmix_toggle, 'on'); ?> />
+		
+		<div class="onoffswitch">
+		    <input type="checkbox" name="<?php echo $this->contactmix_general_settings_key; ?>[contactmix_toggle]" class="onoffswitch-checkbox" id="contactmix_toggle"  value="on" <?php checked($contactmix_toggle,'on');?> />
+		    <label class="onoffswitch-label" for="contactmix_toggle">
+			<div class="onoffswitch-inner"></div>
+			<div class="onoffswitch-switch"></div>
+		    </label>
+		</div>
+		
+						
 			
 			<?php
 	}		
@@ -96,7 +105,7 @@ class Settings_API_Tabs_ContactMix_Plugin {
 	#
 
 	public function pluginSettingsLink($links){
-	   $settings_link = '<a href="options-general.php?page='.$this->plugin_options_key.'.php">'.__('Settings').'</a>'; 
+	   $settings_link = '<a href="options-general.php?page='.$this->plugin_options_key.'.php">'.__('Settings', 'contactmix').'</a>'; 
 	   array_unshift($links, $settings_link); 
 	  return $links; 
 	}

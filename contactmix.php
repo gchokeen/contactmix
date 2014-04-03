@@ -93,6 +93,9 @@ if (!class_exists('ContactMix')) {
 		}
 	
 		public function adminLoadScripts(){
+			
+			wp_register_style('contactmix-admin-style',plugins_url('css/contactmix-admin.css', __FILE__));
+			wp_enqueue_style( 'contactmix-admin-style' );
 		  
 		}
 	
@@ -167,7 +170,9 @@ if (!class_exists('ContactMix')) {
 		public function footerScript(){
 		  
 		 $settings_general = $this->_contactmixcore->getGeneralOptions();
-		 if($settings_general['contactmix_toggle'] == 'on'){
+		 
+		 
+		 if(isset($settings_general['contactmix_toggle']) && $settings_general['contactmix_toggle'] == 'on'){
 		  if( wp_script_is( 'jquery', 'done' ) ) {
 		      ?>
 			<!--Contact Mix Script -->
