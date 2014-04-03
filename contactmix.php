@@ -17,7 +17,7 @@ define('CONTACTMIX_PLUGIN_NAME', plugin_basename(__FILE__));
 define('CONTACTMIX_PLUGIN_DIR', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 define('CONTACTMIX_PLUGIN_VERSION','0.1');
 
-
+require_once 'classes/ContactMixCore.php';
 require_once 'classes/settings.php';
 
 
@@ -29,9 +29,7 @@ if (!class_exists('ContactMix')) {
 		 */
 		static private $_instance = null;
 		
-		private $_priceplowapi;
-		
-		private $_priceplowcore;
+		private $_contactmixcore;
 		
 		/**
 		 * Get ContactMix object
@@ -76,6 +74,7 @@ if (!class_exists('ContactMix')) {
 
 			add_action( 'wp_footer',array(&$this, 'footerScript'));
 
+			$this->_contactmixcore = new ContactMixCore();
 		}
 
 		public function load_transl()
@@ -133,8 +132,14 @@ if (!class_exists('ContactMix')) {
 		public function pluginActivate()
 		{
 			
-			
+			$settings_general = $this->_contactmixcore->getGeneralOptions();			
 		 
+		 	if(empty($settings_general['contactmix_toggle'])){
+				$settings_general['contactmix_toggle'] = 'on';
+			}
+			
+			update_option('contactmix_general_settings', $settings_general);
+
 		}
 
 		/**
@@ -161,6 +166,8 @@ if (!class_exists('ContactMix')) {
 		
 		public function footerScript(){
 		  
+		 $settings_general = $this->_contactmixcore->getGeneralOptions();
+		 if($settings_general['contactmix_toggle'] == 'on'){
 		  if( wp_script_is( 'jquery', 'done' ) ) {
 		      ?>
 			<!--Contact Mix Script -->
@@ -168,6 +175,7 @@ if (!class_exists('ContactMix')) {
 		    
 		    <?php		    
 		  }
+		}
 
 		}	  
 
