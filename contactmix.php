@@ -1,21 +1,21 @@
 <?php
 /**
  * @package contactmix
- * @version 0.1
+ * @version 1.0
  */
 /*
-Plugin Name: Contact Mix
-Plugin URI: http://www.example.com
-Description: contactmix desc placeholder
-Author: Gowri Sankar.R
-Version: 0.1
-Author URI: http://www.example.com
+Plugin Name: ContactMix
+Plugin URI: http://wordpress.org/plugins/contactmix
+Description: ContactMix wordpress plugin will add one line ContactMix code in every wordpress page to increase your customers engagement. 
+Author: contactmix
+Version: 1.0
+Author URI: http://contactmix.com
 Text Domain: contactmix
 */
 
 define('CONTACTMIX_PLUGIN_NAME', plugin_basename(__FILE__));
 define('CONTACTMIX_PLUGIN_DIR', dirname(__FILE__) . DIRECTORY_SEPARATOR);
-define('CONTACTMIX_PLUGIN_VERSION','0.1');
+define('CONTACTMIX_PLUGIN_VERSION','1.0');
 
 require_once 'classes/ContactMixCore.php';
 require_once 'classes/settings.php';
